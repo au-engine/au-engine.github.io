@@ -1,0 +1,85 @@
+h1 {
+    color: gold;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    font-size: 48px;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+    font-weight: 700;
+}
+/*
+.navbar ul {
+    list-style-type: none;
+    background-color: rgb(79, 79, 79);
+    padding: 0px;
+    margin: 0px;
+    overflow: hidden;
+}
+.navbar a {
+    color: gold;
+    text-decoration: none;
+    padding: 15px;
+    display: block;
+    text-align: center;
+}
+.navbar a:hover {
+    background-color: rgb(50, 50, 50);
+}
+.navbar li {
+    float: center;
+}
+*/
+.navbar {
+	background-color: rgb(100, 100, 79);
+    display: flex;
+    justify-content: center;
+	
+	position: absolute; /* OPTIONAL: Change this from absolute to fixed to make navbar always visible when scrolling. */
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+}
+.navbar a {
+    color: gold;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+.navbar a:hover {
+	background-color: rgb(50, 50, 50);
+	color: gold;
+}
+body {
+    background-color: grey;
+}
+p {
+    font-size: 28px;
+    color: gold;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+    font-weight: 700;
+}
+img.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+    box-sizing: border-box;
+}
+footer {
+    width: 100%;
+    padding: 25px;
+    background: rgb(100, 100, 79);;
+    color: gold;
+    text-align: center;
+}

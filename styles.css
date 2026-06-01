@@ -75,7 +75,160 @@ p {
 footer {
     width: 100%;
     padding: 25px;
-    background: rgb(100, 100, 79);;
+    background: rgb(100, 100, 79);
     color: gold;
     text-align: center;
+}
+
+.forum-area {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    gap: 24px;
+}
+
+.forum-card {
+    background: rgba(100, 100, 79, 0.95);
+    border: 2px solid gold;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.forum-card h2 {
+    margin-bottom: 16px;
+    font-size: 32px;
+    letter-spacing: 0.5px;
+}
+
+.forum-card label {
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    font-size: 18px;
+    color: gold;
+}
+
+.forum-card input,
+.forum-card textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 2px solid gold;
+    background: rgba(0, 0, 0, 0.9);
+    color: gold;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.forum-card textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.forum-card button {
+    margin-top: 18px;
+    padding: 14px 22px;
+    border: none;
+    border-radius: 10px;
+    background: gold;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.forum-card button:hover {
+    background: #f0c000;
+}
+
+.topic-list {
+    display: grid;
+    gap: 16px;
+}
+
+.topic-empty {
+    padding: 18px;
+    border: 2px dashed gold;
+    border-radius: 12px;
+    color: gold;
+    text-align: center;
+    font-size: 18px;
+    opacity: 0.95;
+}
+
+.topic-item {
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid gold;
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.topic-item h3 {
+    margin-bottom: 10px;
+    font-size: 26px;
+}
+
+.topic-item p {
+    margin-bottom: 14px;
+    font-size: 18px;
+    line-height: 1.45;
+}
+
+.topic-item .meta {
+    font-size: 16px;
+    color: #ddd;
+}
+
+.comment-section {
+    margin-top: 18px;
+    border-top: 1px solid gold;
+    padding-top: 18px;
+}
+
+.comment-section h4 {
+    margin-bottom: 12px;
+    font-size: 22px;
+    color: gold;
+}
+
+.comment-list {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.comment-item {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.comment-item p {
+    margin-bottom: 10px;
+    color: #eee;
+    font-size: 16px;
+}
+
+.comment-meta {
+    font-size: 14px;
+    color: #ccc;
+}
+
+.comment-empty {
+    padding: 14px;
+    border: 1px dashed gold;
+    color: gold;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+.comment-form label {
+    margin-top: 12px;
+}
+
+.comment-form button {
+    width: 100%;
 }

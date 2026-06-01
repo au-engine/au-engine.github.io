@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="styles.css">
+    <head>
+        <title>Au Engine</title>
+        <link rel="icon" href="favicon.ico" type="image/x-ico">
+    </head>
+    <body>
+        <nav class="navbar">
+            <img src="long icon.png" alt="Logo for the index" width="160" height="50">
+            <a href="index.html">Home</a>
+            <a href="download.html">Download</a>
+            <a href="about.html">About</a>
+            <a href="tutorial.html">Tutorial</a>
+            <a href="forum.html">Forums</a>
+        </nav>
+
+        <br>
+        <br>
+        <h1>Forums</h1>
+        <p>This is the forum page (I'm to lazy for a discription)</p>
+
+        <section class="forum-area">
+            <div class="forum-card">
+                <h2>Create a new topic</h2>
+                <form id="new-topic-form">
+                    <label for="topic-title">Topic Title</label>
+                    <input type="text" id="topic-title" placeholder="Enter topic title" required>
+
+                    <label for="topic-description">Description</label>
+                    <textarea id="topic-description" placeholder="Describe the topic" required></textarea>
+
+                    <label for="topic-author">Posted by</label>
+                    <input type="text" id="topic-author" placeholder="Your name" required>
+
+                    <button type="submit">Create Topic</button>
+                </form>
+            </div>
+            <div class="forum-card">
+                <h2>Topics</h2>
+                <div id="topic-list" class="topic-list">
+                    <div class="topic-empty">No topics yet. Use the form to create the first topic.</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <h3>© 2026-2026 EpicNick117 All rights reserved</h3>
+            <a href="https://discord.gg/MqKfJHeMD2">Discord Link</a>
+        </footer>
+
+        <script>
+            const STORAGE_KEY = 'auForumTopics';
+            const form = document.getElementById('new-topic-form');
+            const topicList = document.getElementById('topic-list');
+            let topics = [];
+
+            function escapeHtml(text) {
+                return text
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            function loadTopics() {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        if (Array.isArray(parsed)) {
+                            topics = parsed;
+                        }
+                    } catch (error) {
+                        topics = [];
+                    }
+                }
+            }
+
+            function saveTopics() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(topics));
+            }
+
+            function formatDate(timestamp) {
+                return new Date(timestamp).toLocaleString();
+            }
+
+            function createTopicElement(topic) {
+                const item = document.createElement('div');
+                item.className = 'topic-item';
+                item.dataset.topicId = topic.id;
+                item.innerHTML = `
+                    <div class="topic-header">
+                        <h3>${escapeHtml(topic.title)}</h3>
+                        <div class="meta">Posted by ${escapeHtml(topic.author)} on ${formatDate(topic.createdAt)}</div>
+                    </div>
+                    <p>${escapeHtml(topic.description).replace(/\n/g, '<br>')}</p>
+                    <div class="comment-section">
+                        <h4>Comments</h4>
+                        <div class="comment-list">
+                            ${topic.comments.length > 0 ? topic.comments.map(comment => `
+                                <div class="comment-item">
+                                    <p>${escapeHtml(comment.text).replace(/\n/g, '<br>')}</p>
+                                    <div class="comment-meta">Posted by ${escapeHtml(comment.author)} on ${formatDate(comment.createdAt)}</div>
+                                </div>
+                            `).join('') : '<div class="comment-empty">No comments yet. Add the first comment below.</div>'}
+                        </div>
+                        <form class="comment-form">
+                            <label>Commenter</label>
+                            <input type="text" name="comment-author" placeholder="Your name" required>
+
+                            <label>Comment</label>
+                            <textarea name="comment-text" placeholder="Write a comment" required></textarea>
+
+                            <button type="submit">Add Comment</button>
+                        </form>
+                    </div>
+                `;
+
+                const commentForm = item.querySelector('.comment-form');
+                commentForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const authorInput = commentForm.querySelector('input[name="comment-author"]');
+                    const textInput = commentForm.querySelector('textarea[name="comment-text"]');
+                    const author = authorInput.value.trim();
+                    const text = textInput.value.trim();
+
+                    if (!author || !text) {
+                        return;
+                    }
+
+                    const topicId = item.dataset.topicId;
+                    const topic = topics.find(t => t.id === topicId);
+                    if (!topic) {
+                        return;
+                    }
+
+                    topic.comments.push({
+                        id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+                        author,
+                        text,
+                        createdAt: Date.now(),
+                    });
+
+                    saveTopics();
+                    renderTopics();
+                });
+
+                return item;
+            }
+
+            function renderTopics() {
+                topicList.innerHTML = '';
+
+                if (topics.length === 0) {
+                    const emptyMessage = document.createElement('div');
+                    emptyMessage.className = 'topic-empty';
+                    emptyMessage.textContent = 'No topics yet. Use the form to create the first topic.';
+                    topicList.appendChild(emptyMessage);
+                    return;
+                }
+
+                topics.slice().sort((a, b) => b.createdAt - a.createdAt).forEach(topic => {
+                    topicList.appendChild(createTopicElement(topic));
+                });
+            }
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const title = document.getElementById('topic-title').value.trim();
+                const description = document.getElementById('topic-description').value.trim();
+                const author = document.getElementById('topic-author').value.trim();
+
+                if (!title || !description || !author) {
+                    return;
+                }
+
+                const newTopic = {
+                    id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+                    title,
+                    description,
+                    author,
+                    createdAt: Date.now(),
+                    comments: [],
+                };
+
+                topics.push(newTopic);
+                saveTopics();
+                renderTopics();
+                form.reset();
+            });
+
+            loadTopics();
+            renderTopics();
+        </script>
+    </body>
+</html>
